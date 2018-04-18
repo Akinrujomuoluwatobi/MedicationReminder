@@ -9,6 +9,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
@@ -27,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.royalteck.progtobi.medicationreminder.data.AlarmReminderContract;
 import com.royalteck.progtobi.medicationreminder.reminder.AlarmScheduler;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -74,6 +77,8 @@ public class AddMedicationActivity extends AppCompatActivity implements
     private static final long milDay = 86400000L;
     private static final long milWeek = 604800000L;
     private static final long milMonth = 2592000000L;
+    private FirebaseAuth.AuthStateListener authListener;
+    private FirebaseAuth auth;
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -107,6 +112,24 @@ public class AddMedicationActivity extends AppCompatActivity implements
             getLoaderManager().initLoader(EXISTING_VEHICLE_LOADER, null, this);
         }
 
+        //get firebase auth instance
+        auth = FirebaseAuth.getInstance();
+
+        //get current user
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        authListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user == null) {
+                    // user auth state is changed - user is null
+                    // launch login activity
+                    startActivity(new Intent(AddMedicationActivity.this, LoginActivity.class));
+                    finish();
+                }
+            }
+        };
 
         // Initialize Views
         mTitleText = (EditText) findViewById(R.id.reminder_title);
@@ -263,9 +286,19 @@ public class AddMedicationActivity extends AppCompatActivity implements
                 // Show a dialog that notifies the user they have unsaved changes
                 showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
+
+            case R.id.logout:
+                signOut();
+                return true;
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    //sign out method
+    public void signOut() {
+        auth.signOut();
     }
 
     private void showUnsavedChangesDialog(

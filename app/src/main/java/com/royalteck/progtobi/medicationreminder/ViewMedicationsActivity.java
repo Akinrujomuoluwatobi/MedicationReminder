@@ -19,6 +19,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -46,6 +47,7 @@ public class ViewMedicationsActivity extends AppCompatActivity implements Loader
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        alarmReminderProvider = new AlarmReminderProvider();
         setContentView(R.layout.activity_view_medications);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -156,7 +158,7 @@ public class ViewMedicationsActivity extends AppCompatActivity implements Loader
             @Override
             public boolean onQueryTextChange(String newText) {
                 cursor = alarmReminderProvider.getMedicationBySearch(newText);
-                if (cursor!=null){
+                if (cursor != null) {
                     mCursorAdapter.swapCursor(cursor);
                 }
                 return false;
@@ -165,6 +167,22 @@ public class ViewMedicationsActivity extends AppCompatActivity implements Loader
 
         return true;
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.logout) {
+            signOut();
+
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    //sign out method
+    public void signOut() {
+        auth.signOut();
+    }
+
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
