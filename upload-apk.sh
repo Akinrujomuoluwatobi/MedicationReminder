@@ -7,13 +7,13 @@
   git config --global user.email "tobiak2011@gmail.com" 
   git config --global user.name "AkinrujomuOluwatobi" 
   # Clone the repository in the folder buildApk
-  git clone --quiet --branch master = https: // user-name: $GITHUB_API_KEY@github.com/user-name/repo-name master> / dev / null 
+  git clone --quiet --branch master = https: // user-name: 9e1a1ea8af971f9774ee493c9e0de71d7cbbe2c4@github.com/user-name/repo-name master> / dev / null 
   #go into directory and copy data we're interested
   cd master cp -Rf $ HOME / android / *. 
   #add, commit and push files
   git add -f. 
   git remote rm origin 
-  git remote add origin https: // user-name: $GITHUB_API_KEY@github.com/user-name/repo-name.git
+  git remote add origin https: // user-name: 9e1a1ea8af971f9774ee493c9e0de71d7cbbe2c4@github.com/user-name/repo-name.git
    . git add -f 
   git commit -m "Travis build $ TRAVIS_BUILD_NUMBER pushed [skip ci] " 
   git push origin master -fq> / dev / null 
