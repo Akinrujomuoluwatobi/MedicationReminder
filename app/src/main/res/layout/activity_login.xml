@@ -69,8 +69,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="@string/action_sign_in"
+                android:background="@color/colorPrimary"
+                android:text="@string/signin"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="15dp"
+                android:id="@+id/click_to_register"
+                android:text="@string/notregister"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:onClick="launchReg"
+                android:textSize="18sp"/>
 
         </LinearLayout>
     </ScrollView>
